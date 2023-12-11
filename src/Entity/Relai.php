@@ -18,15 +18,20 @@ class Relai
     #[ORM\Column(length: 255)]
     private ?string $nomRelai = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Adresse $adresse = null;
-
     #[ORM\OneToMany(mappedBy: 'relai', targetEntity: User::class)]
     private Collection $utilisateurs;
+
+    #[ORM\OneToMany(mappedBy: 'relai', targetEntity: Casier::class)]
+    private Collection $casiers;
+
+    #[ORM\OneToOne(inversedBy: 'relai', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Adresse $adresse = null;
 
     public function __construct()
     {
         $this->utilisateurs = new ArrayCollection();
+        $this->casiers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +87,36 @@ class Relai
             // set the owning side to null (unless already changed)
             if ($utilisateur->getRelai() === $this) {
                 $utilisateur->setRelai(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Casier>
+     */
+    public function getCasiers(): Collection
+    {
+        return $this->casiers;
+    }
+
+    public function addCasier(Casier $casier): static
+    {
+        if (!$this->casiers->contains($casier)) {
+            $this->casiers->add($casier);
+            $casier->setRelai($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCasier(Casier $casier): static
+    {
+        if ($this->casiers->removeElement($casier)) {
+            // set the owning side to null (unless already changed)
+            if ($casier->getRelai() === $this) {
+                $casier->setRelai(null);
             }
         }
 

@@ -20,6 +20,13 @@ class Casier
     #[ORM\JoinColumn(nullable: false)]
     private ?ModelCasier $modelCasier = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $numero = null;
+
+    #[ORM\ManyToOne(inversedBy: 'casiers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Relai $relai = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +52,30 @@ class Casier
     public function setModelCasier(?ModelCasier $modelCasier): static
     {
         $this->modelCasier = $modelCasier;
+
+        return $this;
+    }
+
+    public function getNumero(): ?string
+    {
+        return $this->numero;
+    }
+
+    public function setNumero(string $numero): static
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    public function getRelai(): ?Relai
+    {
+        return $this->relai;
+    }
+
+    public function setRelai(?Relai $relai): static
+    {
+        $this->relai = $relai;
 
         return $this;
     }

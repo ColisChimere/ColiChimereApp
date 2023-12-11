@@ -28,6 +28,9 @@ class Adresse
     #[ORM\OneToMany(mappedBy: 'adresse', targetEntity: ClientAdress::class)]
     private Collection $clientAdresses;
 
+    #[ORM\OneToOne(mappedBy: 'adresse', cascade: ['persist', 'remove'])]
+    private ?Relai $relai = null;
+
     public function __construct()
     {
         $this->clientAdresses = new ArrayCollection();
@@ -100,6 +103,23 @@ class Adresse
                 $clientAdress->setAdresse(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRelai(): ?Relai
+    {
+        return $this->relai;
+    }
+
+    public function setRelai(Relai $relai): static
+    {
+        // set the owning side of the relation if necessary
+        if ($relai->getAdresse() !== $this) {
+            $relai->setAdresse($this);
+        }
+
+        $this->relai = $relai;
 
         return $this;
     }
