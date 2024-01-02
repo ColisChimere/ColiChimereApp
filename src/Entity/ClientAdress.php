@@ -18,14 +18,11 @@ class ClientAdress
 
     #[ORM\ManyToOne(inversedBy: 'clientAdresses')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $utilisateur = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'clientAdresses')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Adresse $adresse = null;
-
-    #[ORM\ManyToOne(inversedBy: 'clientAdresses')]
-    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -40,18 +37,6 @@ class ClientAdress
     public function setTypeAdress(string $typeAdress): static
     {
         $this->typeAdress = $typeAdress;
-
-        return $this;
-    }
-
-    public function getUtilisateur(): ?User
-    {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?User $utilisateur): static
-    {
-        $this->utilisateur = $utilisateur;
 
         return $this;
     }

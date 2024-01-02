@@ -25,10 +25,6 @@ class UserConnexion
 
     #[ORM\ManyToOne(inversedBy: 'userConnexions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $utilisateur = null;
-
-    #[ORM\ManyToOne(inversedBy: 'userConnexions')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     public function getId(): ?int
@@ -68,18 +64,6 @@ class UserConnexion
     public function setDateUtilisation(\DateTimeInterface $dateUtilisation): static
     {
         $this->dateUtilisation = $dateUtilisation;
-
-        return $this;
-    }
-
-    public function getUtilisateur(): ?User
-    {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?User $utilisateur): static
-    {
-        $this->utilisateur = $utilisateur;
 
         return $this;
     }

@@ -18,9 +18,6 @@ class Preference
 
     #[ORM\ManyToOne(inversedBy: 'preferences')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $utilisateur = null;
-
-    #[ORM\ManyToOne(inversedBy: 'preferences')]
     private ?User $user = null;
 
     public function getId(): ?int
@@ -39,19 +36,6 @@ class Preference
 
         return $this;
     }
-
-    public function getUtilisateur(): ?User
-    {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?User $utilisateur): static
-    {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;

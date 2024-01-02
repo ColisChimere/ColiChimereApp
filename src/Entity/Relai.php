@@ -18,9 +18,6 @@ class Relai
     #[ORM\Column(length: 255)]
     private ?string $nomRelai = null;
 
-    #[ORM\OneToMany(mappedBy: 'relai', targetEntity: User::class)]
-    private Collection $utilisateurs;
-
     #[ORM\OneToMany(mappedBy: 'relai', targetEntity: Casier::class)]
     private Collection $casiers;
 
@@ -63,36 +60,6 @@ class Relai
     public function setAdresse(?Adresse $adresse): static
     {
         $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUtilisateurs(): Collection
-    {
-        return $this->utilisateurs;
-    }
-
-    public function addUtilisateur(User $utilisateur): static
-    {
-        if (!$this->utilisateurs->contains($utilisateur)) {
-            $this->utilisateurs->add($utilisateur);
-            $utilisateur->setRelai($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUtilisateur(User $utilisateur): static
-    {
-        if ($this->utilisateurs->removeElement($utilisateur)) {
-            // set the owning side to null (unless already changed)
-            if ($utilisateur->getRelai() === $this) {
-                $utilisateur->setRelai(null);
-            }
-        }
 
         return $this;
     }
