@@ -27,6 +27,10 @@ class UserConnexion
     #[ORM\JoinColumn(nullable: false)]
     private ?User $utilisateur = null;
 
+    #[ORM\ManyToOne(inversedBy: 'userConnexions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +80,18 @@ class UserConnexion
     public function setUtilisateur(?User $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

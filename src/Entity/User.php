@@ -6,51 +6,61 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Email = null;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
+    private ?string $pseudo = null;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 25, nullable: true)]
     private ?string $numTel = null;
 
-    #[ORM\Column(length: 1)]
-    private ?string $typeUser = null;
-
-    #[ORM\OneToOne(mappedBy: 'utilisateur', cascade: ['persist', 'remove'])]
-    private ?UserLogin $userLogin = null;
-
-    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: UserConnexion::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserConnexion::class)]
     private Collection $userConnexions;
 
-    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Preference::class)]
-    private Collection $preferences;
-
-    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: ClientAdress::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ClientAdress::class)]
     private Collection $clientAdresses;
 
-    #[ORM\ManyToOne(inversedBy: 'utilisateurs')]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Preference::class)]
+    private Collection $preferences;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Relai $relai = null;
+
+    #[ORM\Column(length: 2)]
+    private ?string $typeUser = null;
 
     public function __construct()
     {
         $this->userConnexions = new ArrayCollection();
-        $this->preferences = new ArrayCollection();
         $this->clientAdresses = new ArrayCollection();
+        $this->preferences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -60,14 +70,67 @@ class User
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(string $Email): static
+    public function setEmail(string $email): static
     {
-        $this->Email = $Email;
+        $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getNom(): ?string
@@ -75,7 +138,7 @@ class User
         return $this->nom;
     }
 
-    public function setNom(?string $nom): static
+    public function setNom(string $nom): static
     {
         $this->nom = $nom;
 
@@ -87,7 +150,7 @@ class User
         return $this->prenom;
     }
 
-    public function setPrenom(?string $prenom): static
+    public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
 
@@ -106,35 +169,6 @@ class User
         return $this;
     }
 
-    public function getTypeUser(): ?string
-    {
-        return $this->typeUser;
-    }
-
-    public function setTypeUser(string $typeUser): static
-    {
-        $this->typeUser = $typeUser;
-
-        return $this;
-    }
-
-    public function getUserLogin(): ?UserLogin
-    {
-        return $this->userLogin;
-    }
-
-    public function setUserLogin(UserLogin $userLogin): static
-    {
-        // set the owning side of the relation if necessary
-        if ($userLogin->getUtilisateur() !== $this) {
-            $userLogin->setUtilisateur($this);
-        }
-
-        $this->userLogin = $userLogin;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, UserConnexion>
      */
@@ -147,7 +181,7 @@ class User
     {
         if (!$this->userConnexions->contains($userConnexion)) {
             $this->userConnexions->add($userConnexion);
-            $userConnexion->setUtilisateur($this);
+            $userConnexion->setUser($this);
         }
 
         return $this;
@@ -157,38 +191,8 @@ class User
     {
         if ($this->userConnexions->removeElement($userConnexion)) {
             // set the owning side to null (unless already changed)
-            if ($userConnexion->getUtilisateur() === $this) {
-                $userConnexion->setUtilisateur(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Preference>
-     */
-    public function getPreferences(): Collection
-    {
-        return $this->preferences;
-    }
-
-    public function addPreference(Preference $preference): static
-    {
-        if (!$this->preferences->contains($preference)) {
-            $this->preferences->add($preference);
-            $preference->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removePreference(Preference $preference): static
-    {
-        if ($this->preferences->removeElement($preference)) {
-            // set the owning side to null (unless already changed)
-            if ($preference->getUtilisateur() === $this) {
-                $preference->setUtilisateur(null);
+            if ($userConnexion->getUser() === $this) {
+                $userConnexion->setUser(null);
             }
         }
 
@@ -207,7 +211,7 @@ class User
     {
         if (!$this->clientAdresses->contains($clientAdress)) {
             $this->clientAdresses->add($clientAdress);
-            $clientAdress->setUtilisateur($this);
+            $clientAdress->setUser($this);
         }
 
         return $this;
@@ -217,8 +221,38 @@ class User
     {
         if ($this->clientAdresses->removeElement($clientAdress)) {
             // set the owning side to null (unless already changed)
-            if ($clientAdress->getUtilisateur() === $this) {
-                $clientAdress->setUtilisateur(null);
+            if ($clientAdress->getUser() === $this) {
+                $clientAdress->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Preference>
+     */
+    public function getPreferences(): Collection
+    {
+        return $this->preferences;
+    }
+
+    public function addPreference(Preference $preference): static
+    {
+        if (!$this->preferences->contains($preference)) {
+            $this->preferences->add($preference);
+            $preference->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePreference(Preference $preference): static
+    {
+        if ($this->preferences->removeElement($preference)) {
+            // set the owning side to null (unless already changed)
+            if ($preference->getUser() === $this) {
+                $preference->setUser(null);
             }
         }
 
@@ -233,6 +267,30 @@ class User
     public function setRelai(?Relai $relai): static
     {
         $this->relai = $relai;
+
+        return $this;
+    }
+
+    public function getTypeUser(): ?string
+    {
+        return $this->typeUser;
+    }
+
+    public function setTypeUser(string $typeUser): static
+    {
+        $this->typeUser = $typeUser;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): static
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }

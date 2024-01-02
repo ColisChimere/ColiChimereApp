@@ -28,10 +28,14 @@ class Relai
     #[ORM\JoinColumn(nullable: false)]
     private ?Adresse $adresse = null;
 
+    #[ORM\OneToMany(mappedBy: 'relai', targetEntity: User::class)]
+    private Collection $users;
+
     public function __construct()
     {
         $this->utilisateurs = new ArrayCollection();
         $this->casiers = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,6 +121,36 @@ class Relai
             // set the owning side to null (unless already changed)
             if ($casier->getRelai() === $this) {
                 $casier->setRelai(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setRelai($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getRelai() === $this) {
+                $user->setRelai(null);
             }
         }
 
