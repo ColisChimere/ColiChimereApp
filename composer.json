@@ -22,10 +22,11 @@
         "symfony/twig-bundle": "6.3.*",
         "symfony/validator": "6.3.*",
         "symfony/yaml": "6.3.*",
+        "symfonycasts/reset-password-bundle": "^1.20",
         "symfonycasts/verify-email-bundle": "^1.16"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.51"
+        "symfony/maker-bundle": "^1.52"
     },
     "config": {
         "allow-plugins": {
