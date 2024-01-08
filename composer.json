@@ -25,7 +25,7 @@
         "symfonycasts/verify-email-bundle": "^1.16"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.51"
+        "symfony/maker-bundle": "^1.52"
     },
     "config": {
         "allow-plugins": {
