@@ -6,6 +6,7 @@
     <h1>Register</h1>
 
     {{ form_errors(registrationForm) }}
+    {{ form_errors(adrForm)}}
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
@@ -16,4 +17,6 @@
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+    {{form_start(adrForm)}}
+    {{form_end(adrForm)}}
 {% endblock %}
