@@ -4,10 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Adresse;
 use App\Entity\User;
-use App\Entity\Ville;
 use App\Form\RegistrationFormType;
 use App\Form\AdresseType;
-use App\Repository\VilleRepository;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,8 +22,7 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher, 
         UserAuthenticatorInterface $userAuthenticator, 
         UserAuthenticator $authenticator, 
-        EntityManagerInterface $entityManager,
-        VilleRepository $villeRepository
+        EntityManagerInterface $entityManager
     ): Response
     {
         $user = new User();

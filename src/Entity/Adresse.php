@@ -21,15 +21,14 @@ class Adresse
     #[ORM\Column(length: 50)]
     private ?string $numRue = null;
 
-    #[ORM\ManyToOne(inversedBy: 'adresses')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Ville $ville = null;
-
     #[ORM\OneToMany(mappedBy: 'adresse', targetEntity: ClientAdress::class)]
     private Collection $clientAdresses;
 
     #[ORM\OneToOne(mappedBy: 'adresse', cascade: ['persist', 'remove'])]
     private ?Relai $relai = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $communSIREN = null;
 
     public function __construct()
     {
@@ -61,18 +60,6 @@ class Adresse
     public function setNumRue(string $numRue): static
     {
         $this->numRue = $numRue;
-
-        return $this;
-    }
-
-    public function getVille(): ?Ville
-    {
-        return $this->ville;
-    }
-
-    public function setVille(?Ville $ville): static
-    {
-        $this->ville = $ville;
 
         return $this;
     }
@@ -120,6 +107,18 @@ class Adresse
         }
 
         $this->relai = $relai;
+
+        return $this;
+    }
+
+    public function getCommunSIREN(): ?string
+    {
+        return $this->communSIREN;
+    }
+
+    public function setCommunSIREN(string $communSIREN): static
+    {
+        $this->communSIREN = $communSIREN;
 
         return $this;
     }
