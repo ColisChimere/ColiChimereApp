@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "174327c326a8d70c959a52e0335225fb",
+    "content-hash": "f2090befbedc77ef3152e6f6f3a208fd",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -3540,6 +3540,84 @@
             "time": "2023-09-29T06:59:36+00:00"
         },
         {
+            "name": "symfony/notifier",
+            "version": "v6.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/notifier.git",
+                "reference": "2e39d4a9a96e25d127ffe30171127f6ef73934df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/notifier/zipball/2e39d4a9a96e25d127ffe30171127f6ef73934df",
+                "reference": "2e39d4a9a96e25d127ffe30171127f6ef73934df",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "psr/log": "^1|^2|^3"
+            },
+            "conflict": {
+                "symfony/event-dispatcher": "<5.4",
+                "symfony/event-dispatcher-contracts": "<2.5",
+                "symfony/http-client-contracts": "<2.5",
+                "symfony/http-kernel": "<5.4"
+            },
+            "require-dev": {
+                "symfony/event-dispatcher-contracts": "^2.5|^3",
+                "symfony/http-client-contracts": "^2.5|^3",
+                "symfony/http-foundation": "^5.4|^6.0",
+                "symfony/messenger": "^5.4|^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Notifier\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Sends notifications via one or more channels (email, SMS, ...)",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "notification",
+                "notifier"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/notifier/tree/v6.3.6"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-10-07T07:32:05+00:00"
+        },
+        {
             "name": "symfony/options-resolver",
             "version": "v6.3.0",
             "source": {
@@ -5819,16 +5897,16 @@
         },
         {
             "name": "symfonycasts/reset-password-bundle",
-            "version": "v1.20.1",
+            "version": "v1.20.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SymfonyCasts/reset-password-bundle.git",
-                "reference": "aaf9477d0aa3a28e9c4ef7d3eb6b917f1e11f9f8"
+                "reference": "b79a28c975d72b5ac7febeebe139de436add26c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SymfonyCasts/reset-password-bundle/zipball/aaf9477d0aa3a28e9c4ef7d3eb6b917f1e11f9f8",
-                "reference": "aaf9477d0aa3a28e9c4ef7d3eb6b917f1e11f9f8",
+                "url": "https://api.github.com/repos/SymfonyCasts/reset-password-bundle/zipball/b79a28c975d72b5ac7febeebe139de436add26c4",
+                "reference": "b79a28c975d72b5ac7febeebe139de436add26c4",
                 "shasum": ""
             },
             "require": {
@@ -5859,9 +5937,9 @@
             "description": "Symfony bundle that adds password reset functionality.",
             "support": {
                 "issues": "https://github.com/SymfonyCasts/reset-password-bundle/issues",
-                "source": "https://github.com/SymfonyCasts/reset-password-bundle/tree/v1.20.1"
+                "source": "https://github.com/SymfonyCasts/reset-password-bundle/tree/v1.20.2"
             },
-            "time": "2024-01-02T16:46:54+00:00"
+            "time": "2024-01-22T12:46:34+00:00"
         },
         {
             "name": "symfonycasts/verify-email-bundle",
