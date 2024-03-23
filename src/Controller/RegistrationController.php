@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Adresse;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Form\DestinataireFormType;
 use App\Form\AdresseType;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,10 +27,11 @@ class RegistrationController extends AbstractController
     ): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
         $adr = new Adresse();
-        $adrForm = $this->createForm(AdresseType::class, $adr);
+        $form = $this->createForm(DestinataireFormType::class, [$user, $adr]);
+        $form->handleRequest($request);
+        
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -42,6 +44,7 @@ class RegistrationController extends AbstractController
             $user->setTypeUser('U');
 
             $entityManager->persist($user);
+            $entityManager->persist($adr);
             $entityManager->flush();
             // do anything else you need here, like send an email
 
@@ -53,8 +56,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-            'adrForm' => $adrForm->createView(),
+            'form' => $form->createView(),
         ]);
     }
 }

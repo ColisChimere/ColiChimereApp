@@ -3,34 +3,35 @@
 {% block title %}Register{% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/registrationScript.js') }}"></script>
+    <script src="{{ asset('/js/registrationScript.js') }}"></script>
 {% endblock %}
 
 {% block body %}
     <h1>Register</h1>
 
-    {{ form_errors(registrationForm) }}
-    {{ form_errors(adrForm)}}
+    {{ form_errors(form) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.pseudo) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.nom) }}
-        {{ form_row(registrationForm.prenom) }}
-        {{ form_row(registrationForm.numTel) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">suite</button>
-    {{ form_end(registrationForm) }}
-    {{ form_start(adrForm) }}
-        {{form_row(adrForm.numRue)}}
-        {{form_row(adrForm.rue)}}
-        <label for="codePostale">Code postale</label>
-        <input type="number" name="codePostale" id="">
-        {{form_row(adrForm.communSIREN)}}
-    {{ form_end(adrForm) }}
+    {{ form_start(form) }}
+        <div class="form_p1">
+            {{ form_row(form.Register.email, {'attr': {'class':'test'}}) }}
+            {{ form_row(form.Register.pseudo) }}
+            {{ form_row(form.Register.plainPassword, {
+                label: 'Password'
+            }) }}
+            {{ form_row(form.Register.nom) }}
+            {{ form_row(form.Register.prenom) }}
+            {{ form_row(form.Register.numTel) }}
+            {{ form_row(form.Register.agreeTerms) }}
+            <button type="" class="btn">Suite</button>
+        </div>
+        <div class="form_p2 hide">
+            {{form_row(form.adr.numRue)}}
+            {{form_row(form.adr.rue)}}
+            <label for="codePostale">Code postale</label>
+            <input type="number" name="codePostale" id="codePostaleForm">
+            {{form_row(form.adr.communSIREN)}}
+            <button type="" class="btn">Terminer</button>
+        </div>
+    {{ form_end(form) }}
     
 {% endblock %}
