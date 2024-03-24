@@ -13,24 +13,24 @@
 
     {{ form_start(form) }}
         <div class="form_p1">
-            {{ form_row(form.Register.email, {'attr': {'class':'test'}}) }}
-            {{ form_row(form.Register.pseudo) }}
-            {{ form_row(form.Register.plainPassword, {
+            {{ form_row(form.Register.email, {'attr': {'class':'form-control'}}) }}
+            {{ form_row(form.Register.pseudo, {'attr': {'class':'form-control'}}) }}
+            {{ form_row(form.Register.plainPassword, {'attr': {'class':'form-control'}}, {
                 label: 'Password'
             }) }}
-            {{ form_row(form.Register.nom) }}
-            {{ form_row(form.Register.prenom) }}
-            {{ form_row(form.Register.numTel) }}
+            {{ form_row(form.Register.nom, {'attr': {'class':'form-control'}}) }}
+            {{ form_row(form.Register.prenom, {'attr': {'class':'form-control'}}) }}
+            {{ form_row(form.Register.numTel, {'attr': {'class':'form-control'}}) }}
             {{ form_row(form.Register.agreeTerms) }}
-            <button type="" class="btn">Suite</button>
+            <button type="button" class="btn btn-secondary">Suite</button>
         </div>
         <div class="form_p2 hide">
-            {{form_row(form.adr.numRue)}}
-            {{form_row(form.adr.rue)}}
+            {{form_row(form.adr.numRue, {'attr': {'class':'form-control'}})}}
+            {{form_row(form.adr.rue, {'attr': {'class':'form-control'}})}}
             <label for="codePostale">Code postale</label>
             <input type="number" name="codePostale" id="codePostaleForm">
-            {{form_row(form.adr.communSIREN)}}
-            <button type="" class="btn">Terminer</button>
+            {{form_row(form.adr.communSIREN, {'attr': {'class':'form-control'}})}}
+            <button type="button" class="btn btn-secondary">Terminer</button>
         </div>
     {{ form_end(form) }}
     
