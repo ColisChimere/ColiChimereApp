@@ -8,30 +8,33 @@
 
 {% block body %}
     <h1>Register</h1>
+    
+    <div class="card bg-color-white-op-50 p-3 center">
+        {{ form_errors(form) }}
 
-    {{ form_errors(form) }}
-
-    {{ form_start(form) }}
-        <div class="form_p1">
-            {{ form_row(form.Register.email, {'attr': {'class':'form-control'}}) }}
-            {{ form_row(form.Register.pseudo, {'attr': {'class':'form-control'}}) }}
-            {{ form_row(form.Register.plainPassword, {'attr': {'class':'form-control'}}, {
-                label: 'Password'
-            }) }}
-            {{ form_row(form.Register.nom, {'attr': {'class':'form-control'}}) }}
-            {{ form_row(form.Register.prenom, {'attr': {'class':'form-control'}}) }}
-            {{ form_row(form.Register.numTel, {'attr': {'class':'form-control'}}) }}
-            {{ form_row(form.Register.agreeTerms) }}
-            <button type="button" class="btn btn-secondary">Suite</button>
-        </div>
-        <div class="form_p2 hide">
-            {{form_row(form.adr.numRue, {'attr': {'class':'form-control'}})}}
-            {{form_row(form.adr.rue, {'attr': {'class':'form-control'}})}}
-            <label for="codePostale">Code postale</label>
-            <input type="number" name="codePostale" id="codePostaleForm">
-            {{form_row(form.adr.communSIREN, {'attr': {'class':'form-control'}})}}
-            <button type="button" class="btn btn-secondary">Terminer</button>
-        </div>
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+            <div class="form_p1">
+                {{ form_row(form.Register.email, {'attr': {'class':'form-control'}}) }}
+                {{ form_row(form.Register.pseudo, {'attr': {'class':'form-control'}}) }}
+                {{ form_row(form.Register.plainPassword, {'attr': {'class':'form-control'}}, {
+                    label: 'Password'
+                }) }}
+                {{ form_row(form.Register.nom, {'attr': {'class':'form-control'}}) }}
+                {{ form_row(form.Register.prenom, {'attr': {'class':'form-control'}}) }}
+                {{ form_row(form.Register.numTel, {'attr': {'class':'form-control'}}) }}
+                {{ form_row(form.Register.agreeTerms) }}
+                <button type="button" class="btn btn-secondary bg-color-gray mx-auto">Suite</button>
+            </div>
+            <div class="form_p2 d-none">
+                {{form_row(form.adr.numRue, {'attr': {'class':'form-control'}})}}
+                {{form_row(form.adr.rue, {'attr': {'class':'form-control'}})}}
+                <label for="codePostale">Code postale</label>
+                <input type="number" name="codePostale" id="codePostaleForm">
+                {{form_row(form.adr.communSIREN, {'attr': {'class':'form-control'}})}}
+                <button type="button" class="btn bg-color-gray btn-secondary">Terminer</button>
+            </div>
+        {{ form_end(form) }}
+        
+    </div>
     
 {% endblock %}
