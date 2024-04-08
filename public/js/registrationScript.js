@@ -52,3 +52,24 @@ function AddOptionCommun(array){
 function RemoveOption(){
     selectCommune.empty();
 }
+const formP1 = $('#form_p1');
+const formP2 = $('#form_p2');
+const nextButton = $('#nextButton');
+const backButton = $('#backButton');
+const submitButton = $('#destinataire_form_Terminer');
+
+nextButton.on('click',function(){
+    nextButton.addClass('d-none');
+    backButton.removeClass('d-none');
+    submitButton.removeClass('d-none');
+    formP1.addClass('d-none');
+    formP2.removeClass('d-none');
+});
+
+backButton.on('click',function(){
+    backButton.addClass('d-none');
+    nextButton.removeClass('d-none');
+    submitButton.addClass('d-none');
+    formP1.removeClass('d-none');
+    formP2.addClass('d-none');
+});

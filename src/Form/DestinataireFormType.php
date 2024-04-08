@@ -9,6 +9,7 @@ use App\Entity\Adresse;
 use App\Entity\User;
 use App\Form\AdresseType;
 use App\Form\RegistrationFormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class DestinataireFormType extends AbstractType
 {
@@ -17,6 +18,7 @@ class DestinataireFormType extends AbstractType
         $builder
             ->add('Register', RegistrationFormType::class)
             ->add('adr', AdresseType::class)
+            ->add('Terminer', SubmitType::class)
         ;
     }
 
