@@ -18,7 +18,7 @@
             <div id="form_p1" class="form_p1">
                 {{ form_row(form.Register.email, {'attr': {'class':'form-control'}}) }}
                 {{ form_row(form.Register.pseudo, {'attr': {'class':'form-control'}}) }}
-                {{ form_row(form.Register.plainPassword, {'attr': {'class':'form-control'}}, {
+                {{ form_row(form.Register.Password, {'attr': {'class':'form-control'}}, {
                     label: 'Password'
                 }) }}
                 {{ form_row(form.Register.nom, {'attr': {'class':'form-control'}}) }}
@@ -29,9 +29,11 @@
             <div id="form_p2" class="form_p2 d-none">
                 {{form_row(form.adr.numRue, {'attr': {'class':'form-control'}})}}
                 {{form_row(form.adr.rue, {'attr': {'class':'form-control'}})}}
-                <label for="codePostale">Code postale</label>
+                {{form_row(form.vill.nomVille, {'attr': {'class':'form-control'}})}}
+                {{form_row(form.vill.CodePostal, {'attr': {'class':'form-control'}})}}
+                {# <label for="codePostale">Code postale</label>
                 <input type="text" name="codePostale" id="codePostaleForm" class="form-control">
-                {{form_row(form.adr.communSIREN, {'attr': {'class':'form-control'}})}}
+                {{form_row(form.adr.communSIREN, {'attr': {'class':'form-control'}})}} #}
             </div>
             <div class="d-flex justify-content-center">
                 <button id="nextButton" type="button" class="btn btn-secondary bg-color-gray btn-w-120 mx-2">Suite</button>

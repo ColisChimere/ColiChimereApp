@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Ville;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,6 +19,7 @@ class DestinataireFormType extends AbstractType
         $builder
             ->add('Register', RegistrationFormType::class)
             ->add('adr', AdresseType::class)
+            ->add('vill', VilleType::class)
             ->add('Terminer', SubmitType::class)
         ;
     }

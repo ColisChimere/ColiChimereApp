@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Adresse;
+use App\Entity\ClientAdress;
 use App\Entity\User;
+use App\Entity\Ville;
 use App\Form\RegistrationFormType;
 use App\Form\DestinataireFormType;
 use App\Form\AdresseType;
@@ -28,23 +30,33 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $adr = new Adresse();
-        $form = $this->createForm(DestinataireFormType::class, [$user, $adr]);
+        $vill = new Ville();
+        $form = $this->createForm(DestinataireFormType::class, [$user, $adr, $vill]);
         $form->handleRequest($request);
         
-
-
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('Register')->get('Password')->getData()
                 )
             );
             $user->setTypeUser('U');
 
+            $cliAdr = new ClientAdress();
+            $cliAdr->setAdresse($adr);
+            $cliAdr->setUser($user);
+            $cliAdr->setTypeAdress('FL');
+
+            $adr->setVille($vill);
+            $adr->addClientAdress($cliAdr);
+            $user->addClientAdress($cliAdr);
+
             $entityManager->persist($user);
             $entityManager->persist($adr);
+            $entityManager->persist($vill);
+            $entityManager->persist($cliAdr);
             $entityManager->flush();
             // do anything else you need here, like send an email
 

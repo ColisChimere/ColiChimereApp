@@ -27,8 +27,9 @@ class Adresse
     #[ORM\OneToOne(mappedBy: 'adresse', cascade: ['persist', 'remove'])]
     private ?Relai $relai = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $communSIREN = null;
+    #[ORM\ManyToOne(inversedBy: 'adresses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ville $ville = null;
 
     public function __construct()
     {
@@ -111,15 +112,16 @@ class Adresse
         return $this;
     }
 
-    public function getCommunSIREN(): ?string
+    public function getVille(): ?Ville
     {
-        return $this->communSIREN;
+        return $this->ville;
     }
 
-    public function setCommunSIREN(string $communSIREN): static
+    public function setVille(?Ville $ville): static
     {
-        $this->communSIREN = $communSIREN;
+        $this->ville = $ville;
 
         return $this;
     }
+
 }
