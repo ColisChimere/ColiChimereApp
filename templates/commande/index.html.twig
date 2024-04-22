@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ColisChimere - Commandes{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Commandes</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Utilisateur</th>
+                <th scope="col">Hauteur</th>
+                <th scope="col">Longueur</th>
+                <th scope="col">Largeur</th>
+                <th scope="col">Masse</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for commande in commandes %}
+                <tr>
+                    <th scope="row">{{ commande.id }}</th>
+                    <td>{{ commande.user.pseudo }}</td>
+                    <td>{{ commande.hauteur }}</td>
+                    <td>{{ commande.longueur }}</td>
+                    <td>{{ commande.largeur }}</td>
+                    <td>{{ commande.masse }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/commande/new">Nouvelle Commande</a>
+</div>
+{% endblock %}

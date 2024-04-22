@@ -66,6 +66,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userConnexions = new ArrayCollection();
         $this->clientAdresses = new ArrayCollection();
         $this->preferences = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+        $this->historisations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,42 +138,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(string $prenom): static
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    public function getNumTel(): ?string
-    {
-        return $this->numTel;
-    }
-
-    public function setNumTel(?string $numTel): static
-    {
-        $this->numTel = $numTel;
-
-        return $this;
     }
 
     /**
