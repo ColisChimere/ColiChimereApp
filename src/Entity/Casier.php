@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CasierRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CasierRepository::class)]
@@ -26,6 +28,14 @@ class Casier
     #[ORM\ManyToOne(inversedBy: 'casiers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Relai $relai = null;
+
+    #[ORM\OneToMany(mappedBy: 'casier', targetEntity: Occupe::class)]
+    private Collection $historiqueOccupation;
+
+    public function __construct()
+    {
+        $this->historiqueOccupation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,6 +86,36 @@ class Casier
     public function setRelai(?Relai $relai): static
     {
         $this->relai = $relai;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Occupe>
+     */
+    public function getHistoriqueOccupation(): Collection
+    {
+        return $this->historiqueOccupation;
+    }
+
+    public function addHistoriqueOccupation(Occupe $historiqueOccupation): static
+    {
+        if (!$this->historiqueOccupation->contains($historiqueOccupation)) {
+            $this->historiqueOccupation->add($historiqueOccupation);
+            $historiqueOccupation->setCasier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistoriqueOccupation(Occupe $historiqueOccupation): static
+    {
+        if ($this->historiqueOccupation->removeElement($historiqueOccupation)) {
+            // set the owning side to null (unless already changed)
+            if ($historiqueOccupation->getCasier() === $this) {
+                $historiqueOccupation->setCasier(null);
+            }
+        }
 
         return $this;
     }

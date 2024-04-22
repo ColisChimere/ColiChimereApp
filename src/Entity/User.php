@@ -59,13 +59,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $typeUser = null;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private bool $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'userCible', targetEntity: Commande::class)]
+    private Collection $commandes;
+
+    #[ORM\OneToMany(mappedBy: 'operateur', targetEntity: Livraision::class)]
+    private Collection $livraisions;
 
     public function __construct()
     {
         $this->userConnexions = new ArrayCollection();
         $this->clientAdresses = new ArrayCollection();
         $this->preferences = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+        $this->livraisions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -308,6 +316,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setUserCible($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getUserCible() === $this) {
+                $commande->setUserCible(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Livraision>
+     */
+    public function getLivraisions(): Collection
+    {
+        return $this->livraisions;
+    }
+
+    public function addLivraision(Livraision $livraision): static
+    {
+        if (!$this->livraisions->contains($livraision)) {
+            $this->livraisions->add($livraision);
+            $livraision->setOperateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivraision(Livraision $livraision): static
+    {
+        if ($this->livraisions->removeElement($livraision)) {
+            // set the owning side to null (unless already changed)
+            if ($livraision->getOperateur() === $this) {
+                $livraision->setOperateur(null);
+            }
+        }
 
         return $this;
     }
