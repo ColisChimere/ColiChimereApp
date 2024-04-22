@@ -29,7 +29,12 @@ class CommandeForm extends AbstractType
                     return $user ? $user->getId() : '';
                 }
             ])
-            ->add('Valider', SubmitType::class,['label'=>'ENVOYER'])
+            ->add('Valider', SubmitType::class,[
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ],
+                'label'=>'Valider'
+            ])
         ;
 
     }

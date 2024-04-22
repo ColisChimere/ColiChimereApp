@@ -50,12 +50,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Commande::class, orphanRemoval: true)]
     private Collection $commandes;
 
+    #[ORM\OneToMany(mappedBy: 'mailUser', targetEntity: Historisation::class)]
+    private Collection $historisations;
+
     public function __construct()
     {
         $this->userConnexions = new ArrayCollection();
         $this->clientAdresses = new ArrayCollection();
         $this->preferences = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->historisations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -278,6 +282,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($commande->getUser() === $this) {
                 $commande->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Historisation>
+     */
+    public function getHistorisations(): Collection
+    {
+        return $this->historisations;
+    }
+
+    public function addHistorisation(Historisation $historisation): static
+    {
+        if (!$this->historisations->contains($historisation)) {
+            $this->historisations->add($historisation);
+            $historisation->setMailUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistorisation(Historisation $historisation): static
+    {
+        if ($this->historisations->removeElement($historisation)) {
+            // set the owning side to null (unless already changed)
+            if ($historisation->getMailUser() === $this) {
+                $historisation->setMailUser(null);
             }
         }
 

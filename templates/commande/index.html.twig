@@ -11,9 +11,30 @@
 <div class="example-wrapper">
     <h1>Commandes</h1>
 
-    {% for commande in commandes %}
-        <div>id: {{ commande.id }} - hauteur: {{ commande.hauteur }}</div>
-    {% endfor %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Utilisateur</th>
+                <th scope="col">Hauteur</th>
+                <th scope="col">Longueur</th>
+                <th scope="col">Largeur</th>
+                <th scope="col">Masse</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for commande in commandes %}
+                <tr>
+                    <th scope="row">{{ commande.id }}</th>
+                    <td>{{ commande.user.pseudo }}</td>
+                    <td>{{ commande.hauteur }}</td>
+                    <td>{{ commande.longueur }}</td>
+                    <td>{{ commande.largeur }}</td>
+                    <td>{{ commande.masse }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <a href="/commande/new">Nouvelle Commande</a>
 </div>
