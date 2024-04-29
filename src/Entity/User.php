@@ -393,10 +393,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 }
-// Création d'un utilisateur avec le rôle ROLE_ADMIN
-$userAdmin = new User();
-$userAdmin->addRole('ROLE_ADMIN');
 
-// Création d'un utilisateur avec le rôle ROLE_OPERATOR
-$userOperator = new User();
-$userOperator->addRole('ROLE_OPERATOR');
