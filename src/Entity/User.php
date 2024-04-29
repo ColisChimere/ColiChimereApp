@@ -379,4 +379,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+     public function addRole(string $role): void
+    {
+        $this->roles[] = $role;
+    }
+
+    public function removeRole(string $role): void
+    {
+        $key = array_search($role, $this->roles, true);
+        if ($key !== false) {
+            unset($this->roles[$key]);
+            $this->roles = array_values($this->roles); // réindexe les rôles
+        }
+    }
 }
+// Création d'un utilisateur avec le rôle ROLE_ADMIN
+$userAdmin = new User();
+$userAdmin->addRole('ROLE_ADMIN');
+
+// Création d'un utilisateur avec le rôle ROLE_OPERATOR
+$userOperator = new User();
+$userOperator->addRole('ROLE_OPERATOR');

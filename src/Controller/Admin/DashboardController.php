@@ -2,10 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Adresse;
 use App\Entity\Commande;
 use App\Entity\User;
 use App\Entity\EtatCommande;
 use App\Entity\Relai;
+use App\Form\RegistrationFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -41,23 +43,18 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         //yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::section('Relais');
-        yield MenuItem::subMenu('Action')->setSubItems([
-            MenuItem::linkToCrud('ShowRelai', 'fas fa-eye', Relai::class),
-            MenuItem::linkToCrud('AddRelais', 'fas fa-plus', Relai::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('ModifierRelais', 'fas fa-', Relai::class)->setAction(Crud::PAGE_EDIT),
-            MenuItem::linkToCrud('SuppRelais', 'fas fa-minus', Relai::class)->setAction(Crud::PAGE_DETAIL),
+        yield MenuItem::subMenu('Relai', 'fa fa-bars')->setSubItems([
+            MenuItem::linkToCrud('CreateRelai', 'fas fa-plus', Relai::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('ShowRelai', 'fas fa-eye', Relai::class)
         ]);
-        yield MenuItem::section('User');
-        yield MenuItem::subMenu('Action')->setSubItems([
-            MenuItem::linkToCrud('Show', 'fas fa-eye', User::class),
-            MenuItem::linkToCrud('AddUser', 'fas fa-plus', User::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('ModifierUser', 'fas fa-', User::class)->setAction(Crud::PAGE_EDIT),
-            MenuItem::linkToCrud('SuppUser', 'fas fa-minus', User::class)->setAction(Crud::PAGE_DETAIL),
+        yield MenuItem::subMenu('User', 'fa fa-bars')->setSubItems([
+            MenuItem::linkToCrud('CreateUser', 'fas fa-plus', User::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('ShowUser', 'fas fa-eye', User::class)
         ]);
-
-        //yield MenuItem::linkToCrud('Etat Commande', 'fas fa-list', EtatCommande::class);
-        //yield MenuItem::linkToCrud('User', 'fas fa-list', User::class);
-        //yield MenuItem::linkToCrud('Commande', 'fas fa-list', Commande::class);
+        yield MenuItem::subMenu('Adresses', 'fa fa-bars')->setSubItems([
+            MenuItem::linkToCrud('CreateAdresse', 'fas fa-plus', Adresse::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('ShowAdresse', 'fas fa-eye', Adresse::class)
+        ]);
     }
+    
 }
