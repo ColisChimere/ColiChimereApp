@@ -35,6 +35,9 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->get('Register')->getData();
+            $vill = $form->get('vill')->getData();
+            $adr = $form->get('adr')->getData();
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -43,11 +46,12 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setTypeUser('U');
+            $user->setRoles(['ROLE_CLIENT']);
 
             $cliAdr = new ClientAdress();
             $cliAdr->setAdresse($adr);
             $cliAdr->setUser($user);
-            $cliAdr->setTypeAdress('FL');
+            $cliAdr->setTypeAdress('CLI');
 
             $adr->setVille($vill);
             $adr->addClientAdress($cliAdr);
@@ -57,14 +61,16 @@ class RegistrationController extends AbstractController
             $entityManager->persist($adr);
             $entityManager->persist($vill);
             $entityManager->persist($cliAdr);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
+            
+                
+            try {
+                $entityManager->flush();
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+                return $this->redirectToRoute('app_login');
+            } catch (\Throwable $th) {
+                $m = $th->getMessage();
+            }
+            // do anything else you need here, like send an email
         }
 
         return $this->render('registration/register.html.twig', [
