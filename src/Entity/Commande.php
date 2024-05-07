@@ -73,7 +73,7 @@ class Commande
 
     public function setLargeCol(int $largeCol): static
     {
-        $this->largeColl = $largeCol;
+        $this->largeCol = $largeCol;
 
         return $this;
     }
@@ -85,7 +85,7 @@ class Commande
 
     public function setLongCol(int $longCol): static
     {
-        $this->longColl = $longCol;
+        $this->longCol = $longCol;
 
         return $this;
     }
