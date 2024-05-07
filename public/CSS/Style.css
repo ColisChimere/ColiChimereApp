@@ -1,0 +1,145 @@
+
+/*----------Style Prime----------*/
+body {
+    font-family: 'Andika', sans-serif;
+}
+
+h1, title {
+    font-family: 'Roboto Slab', serif;
+}
+
+h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+}
+
+/*----------Contenue des (base.html)->page----------*/
+.content-wrapper {
+    min-height: calc(100vh - 70px - 120px); /* Adjust 100vh est la hauteur totale de la fenêtre du navigateur, tu dois soustraire la hauteur de ton nav et de ton footer pour que ton .content-wrapper utilise l'espace restant. */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Cela va centrer le contenu verticalement */
+    align-items: center; /* Cela va centrer le contenu horizontalement */
+}
+
+.bg-custom-login {
+    background-color: #ffffff; /* Utilise la couleur que tu souhaites ici */
+}
+
+/*----------Logo----------*/
+.logo-container {
+    position: absolute;
+    top: -90px; /* Ajuste cette valeur pour positionner verticalement */
+    left: 50px; /* Ajuste cette valeur pour positionner horizontalement */
+    z-index: 10; /* Assure que le logo soit au-dessus de la barre de navigation */
+}
+
+/*----------Navebar----------*/
+.navbar {
+    background-color: #00eeff; /* Utilise la couleur que tu souhaites ici */
+    margin-top: 80px; /* Ajuste cette valeur pour descendre la barre de navigation */
+    border-radius: 10px; /* Ajuste cette valeur pour arrondir les bords */
+    width: 95%; /* Ajuste la largeur de la barre de navigation */
+    margin-left: auto; /* Centre la barre de navigation horizontalement */
+    margin-right: auto; /* Centre la barre de navigation horizontalement */
+}
+
+.nav-item {
+    margin-right: 20px; /* Ajuste cette valeur pour augmenter l'espace */
+}
+
+/*----------FOOTER----------*/
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+/*----------COLORS------------*/
+.bg-color-white{
+    background-color: #FEFAEE;
+}
+.bg-color-white-op-50{
+    background-color: #fefaee80;
+}
+.bg-color-orange-1{
+    background-color: #FFCD9E;
+}
+.bg-color-orange-2{
+    background-color: #FF9A67;
+}
+.bg-color-brond{
+    background-color: #A5764B;
+}
+.bg-color-blue-gray{
+    background-color: #81738F;
+}
+.bg-color-gray{
+    background-color: #616161;
+}
+.color-white{
+    color: #FEFAEE;
+}
+.color-orange-1{
+    color: #FFCD9E;
+}
+.color-orange-2{
+    color: #FF9A67;
+}
+.color-brond{
+    color: #A5764B;
+}
+.color-blue-gray{
+    color: #81738F;
+}
+.color-gray{
+    color: #616161;
+}
+
+
+
+  
+/*----------V-Portable----------*/
+/* CSS pour les écrans de taille portable */
+@media (max-width: 1100px) {
+    .logo-container {
+        position: absolute; /* On utilise position absolute pour le placer précisément */
+        left: 50%; /* Commence à 50% du parent sur la gauche */
+        top: 50px; /* Position verticale, à ajuster selon le besoin */
+        transform: translateX(-50%); /* Décale le logo de 50% de sa largeur vers la gauche pour le centrer */
+        margin: 0; /* Retire les marges par défaut */
+    }
+
+    .logo-container img {
+        display: block; /* Rend l'image en bloc pour permettre le centrage avec margin */
+        max-width: 100%; /* Permet à l'image d'être responsive et de s'adapter à la largeur du container */
+        height: auto; /* Garde le ratio de l'image */
+    }
+
+    .navbar {
+        background-color: #ff0000; /* Couleur de fond de la barre de navigation */
+        padding-top: 10px; /* Ajoute un padding en haut pour éviter que le texte de la navbar chevauche le logo. Ajuste en fonction de la taille du logo */
+        position: relative; /* S'assure que la navbar reste bien en place */
+    }
+}
+
+@media (max-width: 990px) {
+    .logo-container {
+        position: absolute; /* On utilise position absolute pour le placer précisément */
+        left: 50%; /* Commence à 50% du parent sur la gauche */
+        top: 80px; /* Position verticale, à ajuster selon le besoin */
+        transform: translateX(-50%); /* Décale le logo de 50% de sa largeur vers la gauche pour le centrer */
+        margin: 0; /* Retire les marges par défaut */
+    }
+
+    .logo-container img {
+        display: block; /* Rend l'image en bloc pour permettre le centrage avec margin */
+        max-width: 100%; /* Permet à l'image d'être responsive et de s'adapter à la largeur du container */
+        height: auto; /* Garde le ratio de l'image */
+    }
+
+    .navbar {
+        background-color: #00ff15; /* Couleur de fond de la barre de navigation */
+        padding-top: 60px; /* Ajoute un padding en haut pour éviter que le texte de la navbar chevauche le logo. Ajuste en fonction de la taille du logo */
+        position: relative; /* S'assure que la navbar reste bien en place */
+    }
+}

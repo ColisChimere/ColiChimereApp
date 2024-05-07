@@ -6,10 +6,12 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $pseudo = null;
 
     #[ORM\Column]
@@ -32,10 +34,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 25, nullable: true)]
@@ -56,11 +58,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 2)]
     private ?string $typeUser = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'userCible', targetEntity: Commande::class)]
+    private Collection $commandes;
+
+    #[ORM\OneToMany(mappedBy: 'operateur', targetEntity: Livraision::class)]
+    private Collection $livraisions;
+
     public function __construct()
     {
         $this->userConnexions = new ArrayCollection();
         $this->clientAdresses = new ArrayCollection();
         $this->preferences = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+        $this->livraisions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -293,5 +306,97 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->pseudo = $pseudo;
 
         return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setUserCible($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getUserCible() === $this) {
+                $commande->setUserCible(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Livraision>
+     */
+    public function getLivraisions(): Collection
+    {
+        return $this->livraisions;
+    }
+
+    public function addLivraision(Livraision $livraision): static
+    {
+        if (!$this->livraisions->contains($livraision)) {
+            $this->livraisions->add($livraision);
+            $livraision->setOperateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivraision(Livraision $livraision): static
+    {
+        if ($this->livraisions->removeElement($livraision)) {
+            // set the owning side to null (unless already changed)
+            if ($livraision->getOperateur() === $this) {
+                $livraision->setOperateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function CreateToken(string $type, int $lifeTime): string
+    {
+        $tokken = null;
+        while ($tokken == null) {
+            $tokken = $this->email + bin2hex(openssl_random_pseudo_bytes(16));
+            foreach($this->userConnexions as $usrConn)
+            {
+                if($usrConn->getTokken() == $tokken) $tokken = null;
+            }
+        }
+        $tokken = $this->email . $type . bin2hex(openssl_random_pseudo_bytes(16));
+        $usrConn = new UserConnexion();
+        $usrConn->setTokken($tokken);
+        $usrConn->setLifeTime($lifeTime);
+        $usrConn->setUser($this);
+        $usrConn->setDateCreation(new \DateTime());
+        $this->addUserConnexion($usrConn);
+        return $tokken;
     }
 }

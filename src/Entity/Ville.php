@@ -26,6 +26,7 @@ class Ville
 
     public function __construct()
     {
+        $this->Adresses = new ArrayCollection();
         $this->adresses = new ArrayCollection();
     }
 
@@ -87,4 +88,6 @@ class Ville
 
         return $this;
     }
+
+
 }

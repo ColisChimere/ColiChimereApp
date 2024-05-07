@@ -28,11 +28,15 @@ class Relai
     #[ORM\OneToMany(mappedBy: 'relai', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\OneToMany(mappedBy: 'relaiDepart', targetEntity: Commande::class)]
+    private Collection $commandes;
+
     public function __construct()
     {
         $this->utilisateurs = new ArrayCollection();
         $this->casiers = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,6 +122,36 @@ class Relai
             // set the owning side to null (unless already changed)
             if ($user->getRelai() === $this) {
                 $user->setRelai(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setRelaiDepart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getRelaiDepart() === $this) {
+                $commande->setRelaiDepart(null);
             }
         }
 
