@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Creation de commande{% endblock %}
+
+{% block body %}
+<h1 class="mx-auto text-center">Creation de commande</h1>
+
+<div class="card bg-color-white-op-50 p-3 mx-auto d-flex width-700 flex-colomn">
+    {{ form_errors(form) }}
+
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+</div>    
+{% endblock %}

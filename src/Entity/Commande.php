@@ -66,26 +66,26 @@ class Commande
         return $this;
     }
 
-    public function getLargeColl(): ?int
+    public function getLargeCol(): ?int
     {
         return $this->largeCol;
     }
 
-    public function setLargeColl(int $largeCol): static
+    public function setLargeCol(int $largeCol): static
     {
-        $this->largeColl = $largeCol;
+        $this->largeCol = $largeCol;
 
         return $this;
     }
 
-    public function getLongColl(): ?int
+    public function getLongCol(): ?int
     {
         return $this->longCol;
     }
 
-    public function setLongColl(int $longCol): static
+    public function setLongCol(int $longCol): static
     {
-        $this->longColl = $longCol;
+        $this->longCol = $longCol;
 
         return $this;
     }
