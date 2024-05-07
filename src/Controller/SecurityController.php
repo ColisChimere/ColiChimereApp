@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\UserConnexion;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,10 +58,24 @@ class SecurityController extends AbstractController
 
         return $this->json(['tokken'=>$tokken],200);
     }
-
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+    #[Route(path:'/api/logout-{id}', name:'api_logout')]
+    public function apiLogout(User $user, Request $request, EntityManagerInterface $em)
+    {
+        $req = json_decode($request->getContent(), false);
+        foreach($user->getUserConnexions() as $uc)
+        {
+            if($uc->getTokken() == $req->tokken)
+            {
+                $user->removeUserConnexion($uc);
+                $em->persist($user);
+                $em->flush();
+            }   
+        }
+    }
+
 }
