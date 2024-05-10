@@ -27,6 +27,9 @@ class UserConnexion
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column]
+    private ?int $lifeTime = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,5 +81,22 @@ class UserConnexion
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getLifeTime(): ?int
+    {
+        return $this->lifeTime;
+    }
+
+    public function setLifeTime(int $lifeTime): static
+    {
+        $this->lifeTime = $lifeTime;
+
+        return $this;
+    }
+    public function isValid(): bool
+    {
+        if((new \DateTime)->getTimestamp() - $this->dateCreation->getTimestamp() > $this->lifeTime) return false;
+        return true;
     }
 }

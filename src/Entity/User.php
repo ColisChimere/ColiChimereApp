@@ -392,6 +392,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->roles = array_values($this->roles); // réindexe les rôles
         }
     }
+    public function CreateToken(string $type, int $lifeTime): string
+    {
+        $tokken = null;
+        while ($tokken == null) {
+            $tokken = $this->email + bin2hex(openssl_random_pseudo_bytes(16));
+            foreach($this->userConnexions as $usrConn)
+            {
+                if($usrConn->getTokken() == $tokken) $tokken = null;
+            }
+        }
+        $tokken = $this->email . $type . bin2hex(openssl_random_pseudo_bytes(16));
+        $usrConn = new UserConnexion();
+        $usrConn->setTokken($tokken);
+        $usrConn->setLifeTime($lifeTime);
+        $usrConn->setUser($this);
+        $usrConn->setDateCreation(new \DateTime());
+        $this->addUserConnexion($usrConn);
+        return $tokken;
+    }
 }
 // Création d'un utilisateur avec le rôle ROLE_ADMIN
 $userAdmin = new User();
