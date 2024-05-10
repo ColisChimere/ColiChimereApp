@@ -46,7 +46,7 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setTypeUser('U');
-            $user->setRoles(['ROLE_CLIENT']);
+            $user->setRoles(['ROLE_USER']);
 
             $cliAdr = new ClientAdress();
             $cliAdr->setAdresse($adr);
