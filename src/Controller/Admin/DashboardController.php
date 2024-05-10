@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\EtatCommande;
 use App\Entity\Relai;
 use App\Form\RegistrationFormType;
+use Doctrine\ORM\Mapping\EntityListenerResolver;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -25,13 +26,13 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-
+        
         $Url = $this->adminUrlGenerator
             ->setController(RelaiCrudController::class)
             ->generateUrl();
 
         return $this->redirect($Url);
-
+        
     }
 
     public function configureDashboard(): Dashboard
