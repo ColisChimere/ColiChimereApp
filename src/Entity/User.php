@@ -56,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Relai $relai = null;
 
     #[ORM\Column(length: 2)]
-    private ?string $typeUser = null;
+    private ?string $typeUser = "U";
 
     #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
